@@ -1,45 +1,46 @@
-------Задание к лабораторной работе №4
+------Г‡Г Г¤Г Г­ГЁГҐ ГЄ Г«Г ГЎГ®Г°Г ГІГ®Г°Г­Г®Г© Г°Г ГЎГ®ГІГҐ В№4
 
-------1.	Вывести информацию о первых трех студентах (факультет, курс) заочной формы обучения младше 30 лет
+
+------1.	Г‚Г»ГўГҐГ±ГІГЁ ГЁГ­ГґГ®Г°Г¬Г Г¶ГЁГѕ Г® ГЇГҐГ°ГўГ»Гµ ГІГ°ГҐГµ Г±ГІГіГ¤ГҐГ­ГІГ Гµ (ГґГ ГЄГіГ«ГјГІГҐГІ, ГЄГіГ°Г±) Г§Г Г®Г·Г­Г®Г© ГґГ®Г°Г¬Г» Г®ГЎГіГ·ГҐГ­ГЁГї Г¬Г«Г Г¤ГёГҐ 30 Г«ГҐГІ
 
 select top 3 stud.*, faculty.faculty_name, hours.course from stud 
 join process on stud.id = process.stud_id
 join hours on process.hours_id = hours.id
 join faculty on hours.faculty_id = faculty.id
 join form on hours.form_id = form.id
-where form.form_name = 'заочно' and DATEDIFF ( YEAR , stud.br_date, SYSDATETIME()) < 30
+where form.form_name = 'Г§Г Г®Г·Г­Г®' and DATEDIFF ( YEAR , stud.br_date, SYSDATETIME()) < 30
 
-------2.	Вывести информацию о первых пяти студентах (факультет, курс) заочной формы обучения старше 25 лет
+------2.	Г‚Г»ГўГҐГ±ГІГЁ ГЁГ­ГґГ®Г°Г¬Г Г¶ГЁГѕ Г® ГЇГҐГ°ГўГ»Гµ ГЇГїГІГЁ Г±ГІГіГ¤ГҐГ­ГІГ Гµ (ГґГ ГЄГіГ«ГјГІГҐГІ, ГЄГіГ°Г±) Г§Г Г®Г·Г­Г®Г© ГґГ®Г°Г¬Г» Г®ГЎГіГ·ГҐГ­ГЁГї Г±ГІГ Г°ГёГҐ 25 Г«ГҐГІ
 
 select top 5 stud.*, faculty.faculty_name, hours.course from stud 
 join process on stud.id = process.stud_id
 join hours on process.hours_id = hours.id
 join faculty on hours.faculty_id = faculty.id
 join form on hours.form_id = form.id
-where form.form_name = 'заочно' and DATEDIFF ( YEAR , stud.br_date, SYSDATETIME()) >= 25
+where form.form_name = 'Г§Г Г®Г·Г­Г®' and DATEDIFF ( YEAR , stud.br_date, SYSDATETIME()) >= 25
 
-------3.	Определить количество студентов на каждом факультете
+------3.	ГЋГЇГ°ГҐГ¤ГҐГ«ГЁГІГј ГЄГ®Г«ГЁГ·ГҐГ±ГІГўГ® Г±ГІГіГ¤ГҐГ­ГІГ®Гў Г­Г  ГЄГ Г¦Г¤Г®Г¬ ГґГ ГЄГіГ«ГјГІГҐГІГҐ
 select COUNT(*) as Chislo_studentov, faculty.faculty_name from stud 
 join process on stud.id = process.stud_id
 join hours on process.hours_id = hours.id
 join faculty on hours.faculty_id = faculty.id
 group by faculty_name
 
- ------или даже лучше так
+ ------ГЁГ«ГЁ Г¤Г Г¦ГҐ Г«ГіГ·ГёГҐ ГІГ ГЄ
 
 select COUNT(*) as Chislo_studentov, faculty.faculty_name from process 
 join hours on process.hours_id = hours.id
 join faculty on hours.faculty_id = faculty.id
 group by faculty_name
 
-------4.	Определить количество студентов, учащихся на каждой форме обучения
+------4.	ГЋГЇГ°ГҐГ¤ГҐГ«ГЁГІГј ГЄГ®Г«ГЁГ·ГҐГ±ГІГўГ® Г±ГІГіГ¤ГҐГ­ГІГ®Гў, ГіГ·Г Г№ГЁГµГ±Гї Г­Г  ГЄГ Г¦Г¤Г®Г© ГґГ®Г°Г¬ГҐ Г®ГЎГіГ·ГҐГ­ГЁГї
 
 select COUNT(*) as Chislo_studentov, form.form_name from process 
 join hours on process.hours_id = hours.id
 join form on hours.form_id = form.id
 group by form.form_name
 
-------5.	Определить средний возраст студентов для каждого факультета на конец года (лет)
+------5.	ГЋГЇГ°ГҐГ¤ГҐГ«ГЁГІГј Г±Г°ГҐГ¤Г­ГЁГ© ГўГ®Г§Г°Г Г±ГІ Г±ГІГіГ¤ГҐГ­ГІГ®Гў Г¤Г«Гї ГЄГ Г¦Г¤Г®ГЈГ® ГґГ ГЄГіГ«ГјГІГҐГІГ  Г­Г  ГЄГ®Г­ГҐГ¶ ГЈГ®Г¤Г  (Г«ГҐГІ)
 
 select avg(DATEDIFF ( YEAR , stud.br_date, '2017-12-31')) as sr_vozrast, faculty.faculty_name  from stud
 join process on stud.id = process.stud_id
@@ -48,7 +49,7 @@ join faculty on hours.faculty_id = faculty.id
 group by faculty.faculty_name
 
 
---------6.	Найти всех студентов-иностранцев (без отчества), вывести сведения о них (дата поступления, факультет, курс, форма обучения)
+--------6.	ГЌГ Г©ГІГЁ ГўГ±ГҐГµ Г±ГІГіГ¤ГҐГ­ГІГ®Гў-ГЁГ­Г®Г±ГІГ°Г Г­Г¶ГҐГў (ГЎГҐГ§ Г®ГІГ·ГҐГ±ГІГўГ ), ГўГ»ГўГҐГ±ГІГЁ Г±ГўГҐГ¤ГҐГ­ГЁГї Г® Г­ГЁГµ (Г¤Г ГІГ  ГЇГ®Г±ГІГіГЇГ«ГҐГ­ГЁГї, ГґГ ГЄГіГ«ГјГІГҐГІ, ГЄГіГ°Г±, ГґГ®Г°Г¬Г  Г®ГЎГіГ·ГҐГ­ГЁГї)
 
 select  stud.id, stud.last_name, stud.f_name, stud.in_date, faculty.faculty_name, hours.course, form.form_name from stud 
 join process on stud.id = process.stud_id
@@ -57,35 +58,35 @@ join faculty on hours.faculty_id = faculty.id
 join form on hours.form_id = form.id
 where stud.s_name is null
 
-------7.	Определить общее количество аудиторных часов за весь период обучения для студентов очников ФПМ
+------7.	ГЋГЇГ°ГҐГ¤ГҐГ«ГЁГІГј Г®ГЎГ№ГҐГҐ ГЄГ®Г«ГЁГ·ГҐГ±ГІГўГ® Г ГіГ¤ГЁГІГ®Г°Г­Г»Гµ Г·Г Г±Г®Гў Г§Г  ГўГҐГ±Гј ГЇГҐГ°ГЁГ®Г¤ Г®ГЎГіГ·ГҐГ­ГЁГї Г¤Г«Гї Г±ГІГіГ¤ГҐГ­ГІГ®Гў Г®Г·Г­ГЁГЄГ®Гў Г”ГЏГЊ
 
 select sum(hours.inclass_h) as summa_chasov from hours 
 join faculty on hours.faculty_id = faculty.id
 join form on hours.form_id = form.id
-where form.form_name = 'очно' and faculty.faculty_name ='ФПМ'
+where form.form_name = 'Г®Г·Г­Г®' and faculty.faculty_name ='Г”ГЏГЊ'
 
-------8.	Определить общее количество часов согласно плану для студентов заочной формы обучения ФПК заочной формы обучения
+------8.	ГЋГЇГ°ГҐГ¤ГҐГ«ГЁГІГј Г®ГЎГ№ГҐГҐ ГЄГ®Г«ГЁГ·ГҐГ±ГІГўГ® Г·Г Г±Г®Гў Г±Г®ГЈГ«Г Г±Г­Г® ГЇГ«Г Г­Гі Г¤Г«Гї Г±ГІГіГ¤ГҐГ­ГІГ®Гў Г§Г Г®Г·Г­Г®Г© ГґГ®Г°Г¬Г» Г®ГЎГіГ·ГҐГ­ГЁГї Г”ГЏГЉ Г§Г Г®Г·Г­Г®Г© ГґГ®Г°Г¬Г» Г®ГЎГіГ·ГҐГ­ГЁГї
 
 select sum(hours.all_h) as summa_chasov from hours 
 join faculty on hours.faculty_id = faculty.id
 join form on hours.form_id = form.id
-where form.form_name = 'заочно' and faculty.faculty_name ='ФПК'
+where form.form_name = 'Г§Г Г®Г·Г­Г®' and faculty.faculty_name ='Г”ГЏГЉ'
 
-------9.	Определить всех сокурсников (с учетом факультета, но разных форм обучения) студента Ботяновского 
+------9.	ГЋГЇГ°ГҐГ¤ГҐГ«ГЁГІГј ГўГ±ГҐГµ Г±Г®ГЄГіГ°Г±Г­ГЁГЄГ®Гў (Г± ГіГ·ГҐГІГ®Г¬ ГґГ ГЄГіГ«ГјГІГҐГІГ , Г­Г® Г°Г Г§Г­Г»Гµ ГґГ®Г°Г¬ Г®ГЎГіГ·ГҐГ­ГЁГї) Г±ГІГіГ¤ГҐГ­ГІГ  ГЃГ®ГІГїГ­Г®ГўГ±ГЄГ®ГЈГ® 
 
 select stud.id, stud.last_name, stud.f_name, stud.in_date, faculty.faculty_name, hours.course, form.form_name from stud 
 join process on stud.id = process.stud_id
 join hours on process.hours_id = hours.id
 join faculty on hours.faculty_id = faculty.id
 join form on hours.form_id = form.id
-where faculty.id =  -- вдруг он сразу на двух учится, тогда сюда поставить any и убрать топ 1
+where faculty.id =  -- ГўГ¤Г°ГіГЈ Г®Г­ Г±Г°Г Г§Гі Г­Г  Г¤ГўГіГµ ГіГ·ГЁГІГ±Гї, ГІГ®ГЈГ¤Г  Г±ГѕГ¤Г  ГЇГ®Г±ГІГ ГўГЁГІГј any ГЁ ГіГЎГ°Г ГІГј ГІГ®ГЇ 1
 	(select top 1 hours.faculty_id from stud 
 	join process on stud.id = process.stud_id
 	join hours on process.hours_id = hours.id
-	where stud.last_name = 'Ботяновский')
-and stud.last_name <> 'Ботяновский'
+	where stud.last_name = 'ГЃГ®ГІГїГ­Г®ГўГ±ГЄГЁГ©')
+and stud.last_name <> 'ГЃГ®ГІГїГ­Г®ГўГ±ГЄГЁГ©'
 
-------10.	Определить на какой факультет поступило наибольшее количество человек в 2015 году
+------10.	ГЋГЇГ°ГҐГ¤ГҐГ«ГЁГІГј Г­Г  ГЄГ ГЄГ®Г© ГґГ ГЄГіГ«ГјГІГҐГІ ГЇГ®Г±ГІГіГЇГЁГ«Г® Г­Г ГЁГЎГ®Г«ГјГёГҐГҐ ГЄГ®Г«ГЁГ·ГҐГ±ГІГўГ® Г·ГҐГ«Г®ГўГҐГЄ Гў 2015 ГЈГ®Г¤Гі
 
 select top 1 faculty.faculty_name, COUNT (process.stud_id) as kol_post_v_2015 from stud
 join process on stud.id = process.stud_id
@@ -94,21 +95,21 @@ join faculty on hours.faculty_id = faculty.id
 where stud.in_date like '2015%'
 group by faculty.faculty_name
 
-------11.	Вывести список студентов, которые учатся на тех же  курсах, что и студент Зингель и студентка Зайцева
+------11.	Г‚Г»ГўГҐГ±ГІГЁ Г±ГЇГЁГ±Г®ГЄ Г±ГІГіГ¤ГҐГ­ГІГ®Гў, ГЄГ®ГІГ®Г°Г»ГҐ ГіГ·Г ГІГ±Гї Г­Г  ГІГҐГµ Г¦ГҐ  ГЄГіГ°Г±Г Гµ, Г·ГІГ® ГЁ Г±ГІГіГ¤ГҐГ­ГІ Г‡ГЁГ­ГЈГҐГ«Гј ГЁ Г±ГІГіГ¤ГҐГ­ГІГЄГ  Г‡Г Г©Г¶ГҐГўГ 
 
 select stud.id, stud.last_name, stud.f_name, stud.in_date, faculty.faculty_name, hours.course, form.form_name from stud 
 join process on stud.id = process.stud_id
 join hours on process.hours_id = hours.id
 join faculty on hours.faculty_id = faculty.id
 join form on hours.form_id = form.id
-where hours.course = any --вот такой случай
+where hours.course = any --ГўГ®ГІ ГІГ ГЄГ®Г© Г±Г«ГіГ·Г Г©
 	(select  hours.course from stud 
 	join process on stud.id = process.stud_id
 	join hours on process.hours_id = hours.id
-	where stud.last_name = 'зингель' or stud.last_name = 'зайцева')
+	where stud.last_name = 'Г§ГЁГ­ГЈГҐГ«Гј' or stud.last_name = 'Г§Г Г©Г¶ГҐГўГ ')
 
 
-------12.	Вывести список студентов по факультетам, средний балл которых меньше  7
+------12.	Г‚Г»ГўГҐГ±ГІГЁ Г±ГЇГЁГ±Г®ГЄ Г±ГІГіГ¤ГҐГ­ГІГ®Гў ГЇГ® ГґГ ГЄГіГ«ГјГІГҐГІГ Г¬, Г±Г°ГҐГ¤Г­ГЁГ© ГЎГ Г«Г« ГЄГ®ГІГ®Г°Г»Гµ Г¬ГҐГ­ГјГёГҐ  7
 
 select  faculty.faculty_name, stud.* from stud 
 join process on stud.id = process.stud_id
@@ -118,14 +119,14 @@ join form on hours.form_id = form.id
 where stud.exm < 7
 order by faculty.faculty_name, stud.exm desc
 
-------13.	Вывести список студентов, средний балл которых меньше чем средний по институту
+------13.	Г‚Г»ГўГҐГ±ГІГЁ Г±ГЇГЁГ±Г®ГЄ Г±ГІГіГ¤ГҐГ­ГІГ®Гў, Г±Г°ГҐГ¤Г­ГЁГ© ГЎГ Г«Г« ГЄГ®ГІГ®Г°Г»Гµ Г¬ГҐГ­ГјГёГҐ Г·ГҐГ¬ Г±Г°ГҐГ¤Г­ГЁГ© ГЇГ® ГЁГ­Г±ГІГЁГІГіГІГі
 
---тут, наверное, стоит усложнить или по другому сформулировать задание))
+--ГІГіГІ, Г­Г ГўГҐГ°Г­Г®ГҐ, Г±ГІГ®ГЁГІ ГіГ±Г«Г®Г¦Г­ГЁГІГј ГЁГ«ГЁ ГЇГ® Г¤Г°ГіГЈГ®Г¬Гі Г±ГґГ®Г°Г¬ГіГ«ГЁГ°Г®ГўГ ГІГј Г§Г Г¤Г Г­ГЁГҐ))
 select  * from stud 
 where exm < (select AVG(exm) from stud)
 order by exm desc
 
-------14.	 Вывести список студентов, средний бал которых выше чем по их факультету
+------14.	 Г‚Г»ГўГҐГ±ГІГЁ Г±ГЇГЁГ±Г®ГЄ Г±ГІГіГ¤ГҐГ­ГІГ®Гў, Г±Г°ГҐГ¤Г­ГЁГ© ГЎГ Г« ГЄГ®ГІГ®Г°Г»Гµ ГўГ»ГёГҐ Г·ГҐГ¬ ГЇГ® ГЁГµ ГґГ ГЄГіГ«ГјГІГҐГІГі
 select  stud.*, x.faculty_name from stud 
 join process on stud.id = process.stud_id
 join hours on process.hours_id = hours.id
@@ -138,7 +139,7 @@ where exm > (select AVG(exm) from stud
 				)
 order by x.faculty_name, stud.exm desc
 
----- для проверки значения среднего балла по факультетам
+---- Г¤Г«Гї ГЇГ°Г®ГўГҐГ°ГЄГЁ Г§Г­Г Г·ГҐГ­ГЁГї Г±Г°ГҐГ¤Г­ГҐГЈГ® ГЎГ Г«Г«Г  ГЇГ® ГґГ ГЄГіГ«ГјГІГҐГІГ Г¬
 select AVG(exm), faculty.faculty_name from stud
 				join process on stud.id = process.stud_id
 				join hours on process.hours_id = hours.id
