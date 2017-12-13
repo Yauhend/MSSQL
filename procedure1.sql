@@ -57,5 +57,5 @@ as
 			end
 go
 
-Set_New_Hours 'ФПКd','заочно',3,400,200
+Set_New_Hours 'ФПК','заочно',3,400,200
 
