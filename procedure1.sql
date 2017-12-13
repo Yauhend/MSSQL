@@ -32,16 +32,19 @@ as
 					select 'New row was inserted' as message
 				end
 		else 
-			select 'Can not find those faculty and form, operation aborted' as error
+			begin
+				rollback
+				select 'Can not find those faculty and form, operation aborted' as error
+			end
 		select @iv_sum =  SUM(all_h + inclass_h) from hours  where hours.faculty_id=@iv_fac and hours.form_id=@iv_form
 		if @iv_sum > 2000  -- добавил слегка ,чтобы реально работало
 			begin
-	rollback
+				rollback
 				select 'Update failed! Over 2000 hours for those faculty, form' as message
 			end
 		else
 			begin
-	commit
+				commit
 				select 'Update sucsessfull!' as message
 			end
 go
