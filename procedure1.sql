@@ -13,6 +13,11 @@
 
 create proc Set_New_Hours @v_faculty nvarchar(25), @v_form nvarchar(25), @v_course int, @v_allhours int, @v_classhours int
 as
+	if @v_classhours > @v_allhours
+		begin
+			select 'Inclass hours more then Allhours' as error
+			return
+		end
 	declare @iv_fac int, @iv_form int, @iv_sum int
 	select @iv_fac =  faculty.id from faculty where faculty_name=@v_faculty
 	select @iv_form = form.id from form where form.form_name=@v_form
@@ -35,19 +40,22 @@ as
 			begin
 				rollback
 				select 'Can not find those faculty and form, operation aborted' as error
+				return
 			end
-		select @iv_sum =  SUM(all_h + inclass_h) from hours  where hours.faculty_id=@iv_fac and hours.form_id=@iv_form
+		select @iv_sum =  SUM(all_h) from hours  where hours.faculty_id=@iv_fac and hours.form_id=@iv_form
 		if @iv_sum > 2000  -- добавил слегка ,чтобы реально работало
 			begin
 				rollback
 				select 'Update failed! Over 2000 hours for those faculty, form' as message
+				return
 			end
 		else
 			begin
 				commit
 				select 'Update sucsessfull!' as message
+				return
 			end
 go
 
-Set_New_Hours 'ФПК','заочно',3,200,400
+Set_New_Hours 'ФПКd','заочно',3,400,200
 
