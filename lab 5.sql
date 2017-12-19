@@ -1,7 +1,23 @@
---Задание к лабораторной работе №5
+п»ї--Р—Р°РґР°РЅРёРµ Рє Р»Р°Р±РѕСЂР°С‚РѕСЂРЅРѕР№ СЂР°Р±РѕС‚Рµ в„–5
+
+---11.	 Р’С‹РІРµСЃС‚Рё СЃРїРёСЃРѕРє СЃС‚СѓРґРµРЅС‚РѕРІ РєРѕС‚РѕСЂС‹Рµ СѓС‡Р°С‚СЃСЏ, РЅР° С„Р°РєСѓР»СЊС‚РµС‚Р°С…, РєСѓСЂСЃР°С… Рё С„РѕСЂРјР°С… РЅР° РєРѕС‚РѕСЂС‹С… СѓС‡РёС‚СЃСЏ РЅРµ Р±РѕР»РµРµ РѕРґРЅРѕРіРѕ РёРЅРѕСЃС‚СЂР°РЅС†Р°(Р±РµР· РѕС‚С‡РµСЃС‚РІР°) 
+
+select stud.* 
+from stud
+	join process	on process.stud_id = stud.id
+	join hours		on hours.id = process.hours_id 
+	join
+		(select faculty_id, course, form_id, COUNT(*)-COUNT(s_name) as kolvo
+		from stud 
+			join process	on process.stud_id = stud.id
+			join hours		on hours.id = process.hours_id		
+		group by faculty_id,course, form_id)
+		as st1
+on st1.faculty_id=hours.faculty_id and st1.form_id=hours.form_id and st1.course = hours.course
+where st1.kolvo<2
 
 --______
---14.	Вывести список всех студентов, при этом для студентов иностранцев вывести название факультета и форму обучения
+--14.	Р’С‹РІРµСЃС‚Рё СЃРїРёСЃРѕРє РІСЃРµС… СЃС‚СѓРґРµРЅС‚РѕРІ, РїСЂРё СЌС‚РѕРј РґР»СЏ СЃС‚СѓРґРµРЅС‚РѕРІ РёРЅРѕСЃС‚СЂР°РЅС†РµРІ РІС‹РІРµСЃС‚Рё РЅР°Р·РІР°РЅРёРµ С„Р°РєСѓР»СЊС‚РµС‚Р° Рё С„РѕСЂРјСѓ РѕР±СѓС‡РµРЅРёСЏ
 
 select 
 	stud.*, 
@@ -20,7 +36,7 @@ from stud
 				where stud.s_name is null) 
 				as inost on inost.id = stud.id
 
---15.	Вывести список факультетов, для каждого факультета вывести список форм обучения и номера курсов, для первых курсов вывести количество общих часов
+--15.	Р’С‹РІРµСЃС‚Рё СЃРїРёСЃРѕРє С„Р°РєСѓР»СЊС‚РµС‚РѕРІ, РґР»СЏ РєР°Р¶РґРѕРіРѕ С„Р°РєСѓР»СЊС‚РµС‚Р° РІС‹РІРµСЃС‚Рё СЃРїРёСЃРѕРє С„РѕСЂРј РѕР±СѓС‡РµРЅРёСЏ Рё РЅРѕРјРµСЂР° РєСѓСЂСЃРѕРІ, РґР»СЏ РїРµСЂРІС‹С… РєСѓСЂСЃРѕРІ РІС‹РІРµСЃС‚Рё РєРѕР»РёС‡РµСЃС‚РІРѕ РѕР±С‰РёС… С‡Р°СЃРѕРІ
 select 
 	faculty.faculty_name, 
 	form.form_name, 
@@ -38,7 +54,7 @@ from faculty
 				where hours.course = 1) 
 				as first	on first.id = hours.id;
 
---16.	Вывести список иностранцев, с указанием общего числа студентов обучающихся с ними на потоке (один факультет, курс, форма)
+--16.	Р’С‹РІРµСЃС‚Рё СЃРїРёСЃРѕРє РёРЅРѕСЃС‚СЂР°РЅС†РµРІ, СЃ СѓРєР°Р·Р°РЅРёРµРј РѕР±С‰РµРіРѕ С‡РёСЃР»Р° СЃС‚СѓРґРµРЅС‚РѕРІ РѕР±СѓС‡Р°СЋС‰РёС…СЃСЏ СЃ РЅРёРјРё РЅР° РїРѕС‚РѕРєРµ (РѕРґРёРЅ С„Р°РєСѓР»СЊС‚РµС‚, РєСѓСЂСЃ, С„РѕСЂРјР°)
 
 select
 	stud.last_name,
@@ -58,7 +74,7 @@ from stud
 where stud.s_name is null;
 
 
---17.	Вывести список форм обучения института, для очной и заочной посчитать количество студентов 
+--17.	Р’С‹РІРµСЃС‚Рё СЃРїРёСЃРѕРє С„РѕСЂРј РѕР±СѓС‡РµРЅРёСЏ РёРЅСЃС‚РёС‚СѓС‚Р°, РґР»СЏ РѕС‡РЅРѕР№ Рё Р·Р°РѕС‡РЅРѕР№ РїРѕСЃС‡РёС‚Р°С‚СЊ РєРѕР»РёС‡РµСЃС‚РІРѕ СЃС‚СѓРґРµРЅС‚РѕРІ 
 select 
 	form_name,
 	x.kolvo	
@@ -70,14 +86,14 @@ from form
 				join process	on process.stud_id = stud.id
 				join hours		on hours.id = process.hours_id
 				join form		on form.id = hours.form_id
-			where form_name = 'очно'
-				or form.form_name = 'заочно'
+			where form_name = 'РѕС‡РЅРѕ'
+				or form.form_name = 'Р·Р°РѕС‡РЅРѕ'
 			group by form.id)
 			as x	on x.id = form.id;
 
 			
 
---18.	Вывести список факультетов, с указанием числа студентов обучающихся на каждой форме обучения  
+--18.	Р’С‹РІРµСЃС‚Рё СЃРїРёСЃРѕРє С„Р°РєСѓР»СЊС‚РµС‚РѕРІ, СЃ СѓРєР°Р·Р°РЅРёРµРј С‡РёСЃР»Р° СЃС‚СѓРґРµРЅС‚РѕРІ РѕР±СѓС‡Р°СЋС‰РёС…СЃСЏ РЅР° РєР°Р¶РґРѕР№ С„РѕСЂРјРµ РѕР±СѓС‡РµРЅРёСЏ  
 
 select 
 	faculty.faculty_name,
@@ -92,7 +108,7 @@ from faculty
 					join process	on process.stud_id = stud.id
 					join hours		on hours.id = process.hours_id
 					join form		on form.id = hours.form_id
-				where form.form_name = 'очно'
+				where form.form_name = 'РѕС‡РЅРѕ'
 				group by hours.faculty_id )
 				as oc	on oc.faculty_id = faculty.id
 	left join(	select 
@@ -102,7 +118,7 @@ from faculty
 					join process	on process.stud_id = stud.id
 					join hours		on hours.id = process.hours_id
 					join form		on form.id = hours.form_id
-				where form.form_name = 'заочно'
+				where form.form_name = 'Р·Р°РѕС‡РЅРѕ'
 				group by hours.faculty_id )
 				as zao on zao.faculty_id = faculty.id
 	left join(	select 
@@ -112,6 +128,6 @@ from faculty
 					join process	on process.stud_id = stud.id
 					join hours		on hours.id = process.hours_id
 					join form		on form.id = hours.form_id
-				where form.form_name = 'вечернее'
+				where form.form_name = 'РІРµС‡РµСЂРЅРµРµ'
 				group by hours.faculty_id ) 
 				as ve on ve.faculty_id = faculty.id
